@@ -1,0 +1,33 @@
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>Hide game</title>
+</head>
+<body>
+<canvas id="canvas" tabindex="-1" width="600" height="600" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; margin: auto;"></canvas>
+<script>
+    var Module = {
+        preRun: [], postRun: [], print: function () {
+            var e = document.getElementById("output");
+            return e && (e.value = ""), function (t) {
+                arguments.length > 1 && (t = Array.prototype.slice.call(arguments).join(" ")), console.log(t), e && (e.value += t + "\n", e.scrollTop = e.scrollHeight)
+            }
+        }(), canvas: function () {
+            var e = document.getElementById("canvas");
+            return e.addEventListener("webglcontextlost", (function (e) {
+                alert("WebGL context lost. You will need to reload the page."), e.preventDefault()
+            }), !1), e
+        }(), setStatus: function (e) {
+            if (Module.setStatus.last || (Module.setStatus.last = {time: Date.now(), text: ""}), e !== Module.setStatus.last.text) {
+                var t = e.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/), n = Date.now();
+                t && n - Module.setStatus.last.time < 30 || (Module.setStatus.last.time = n)
+            }
+        }, totalDependencies: 0, monitorRunDependencies: function (e) {
+            this.totalDependencies = Math.max(this.totalDependencies, e), Module.setStatus(e ? "Preparing... (" + (this.totalDependencies - e) + "/" + this.totalDependencies + ")" : "All downloads complete.")
+        }
+    };</script>
+<script async="" src="main.js">
+</script>
+</body>
+</html>
